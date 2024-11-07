@@ -116,13 +116,17 @@ class Game:
         inner_fill(x, y)
 
     def toggle_mark(self, x: int, y: int):
+        """ Alterne entre les trois états : normal, marqué avec un drapeau, et état normal. """
         if self.display_grid[y][x] == '?':
-            if (x, y) in self.marked_cells:
-                self.marked_cells.remove((x, y))
-                self.display_grid[y][x] = '?'
-            else:
-                self.marked_cells.add((x, y))
-                self.display_grid[y][x] = 'F'
+            # Si la cellule est normale, on marque avec un drapeau
+            self.marked_cells.add((x, y))
+            self.display_grid[y][x] = 'F'  # Marquer avec un drapeau
+            print(f"Drapeau placé à la position ({x}, {y})")  # Debug
+        elif self.display_grid[y][x] == 'F':
+            # Si la cellule est marquée avec un drapeau, on la retire
+            self.marked_cells.remove((x, y))
+            self.display_grid[y][x] = '?'  # Revenir à l'état normal
+            print(f"Retrait du drapeau à la position ({x}, {y})")  # Debug
 
     def check_win(self) -> bool:
         for y in range(self.height):

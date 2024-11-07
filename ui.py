@@ -42,10 +42,17 @@ class GameUI:
                 self.ask_player_name()
 
     def right_click(self, x: int, y: int):
+        """ Gérer le clic droit :
+            - Ajouter un drapeau
+            - Retirer le drapeau
+            - Revenir à l'état normal
+        """
         if (x, y) in self.game.marked_cells:
-            self.game.toggle_mark(x, y)
+            # Si la cellule est marquée avec un drapeau, on retire le drapeau
+            self.game.toggle_mark(x, y)  # Retirer le drapeau
         else:
-            self.game.toggle_mark(x, y)
+            # Si la cellule n'est pas marquée, on ajoute un drapeau
+            self.game.toggle_mark(x, y)  # Ajouter le drapeau
         self.update_display()
 
     def update_display(self):
@@ -55,19 +62,22 @@ class GameUI:
                 btn = self.buttons[y][x]
 
                 if value == '?':
-                    btn.config(text='', relief=tk.RAISED, bg="lightgray")  # Réinitialise la couleur
+                    # Si la case est normale, on affiche rien
+                    btn.config(text='', relief=tk.RAISED, bg="lightgray")
                 elif value == 'F':
-                    btn.config(text='!', relief=tk.RAISED, bg="lightcoral")  # Couleur pour le drapeau
+                    # Si la case est marquée avec un drapeau
+                    btn.config(text='!', relief=tk.RAISED, bg="lightcoral")  # Drapeau (F)
                 else:
+                    # Affichage des valeurs numériques ou des mines
                     btn.config(text=value, relief=tk.SUNKEN, bg="lightgray")
                     if value == '0':
-                        btn.config(text='')
+                        btn.config(text='')  # Enlever le texte si c'est un zéro
 
     def show_all_mines(self):
         for y in range(self.game.height):
             for x in range(self.game.width):
                 if self.game.grid[y][x] == 'X':
-                    self.buttons[y][x].config(text='💣', relief=tk.SUNKEN)
+                    self.buttons[y][x].config(text='!', relief=tk.SUNKEN)
 
     def ask_player_name(self):
         name = tk.simpledialog.askstring("Victoire", "Entrez votre nom:")

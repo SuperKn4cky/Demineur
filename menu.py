@@ -63,7 +63,7 @@ class Menu:
         tk.Label(diff_frame, text="Choisissez la difficulté", font=('Arial', 18)).pack(pady=20)
 
         difficulties = {
-            "Facile": (3, 3, 3),
+            "Facile": (9, 9, 10),
             "Moyen": (16, 16, 40),
             "Difficile": (30, 16, 99)
         }
