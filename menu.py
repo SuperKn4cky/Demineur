@@ -72,6 +72,7 @@ class Menu:
             tk.Button(
                 diff_frame,
                 text=name,
+                width=10,
                 command=lambda w=width, h=height, m=mines: self.start_game(w, h, m)
             ).pack(pady=5)
 

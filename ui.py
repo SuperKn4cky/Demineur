@@ -20,7 +20,7 @@ class GameUI:
         for y in range(self.game.height):
             row = []
             for x in range(self.game.width):
-                btn = tk.Button(game_frame, width=2, height=1)
+                btn = tk.Button(game_frame, width=1, height=1)
                 btn.grid(row=y, column=x)
                 btn.bind('<Button-1>', lambda e, x=x, y=y: self.left_click(x, y))
                 btn.bind('<Button-3>', lambda e, x=x, y=y: self.right_click(x, y))
