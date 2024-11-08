@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 from game import Game
-import tkinter.simpledialog as simpledialog
 
 
 class GameUI:
