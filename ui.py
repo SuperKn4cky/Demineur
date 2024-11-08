@@ -30,6 +30,17 @@ class GameUI:
         # Bouton retour
         tk.Button(self.root, text="Retour au menu", command=self.menu.create_main_menu).pack(pady=10)
 
+    def left_click(self, x: int, y: int):
+        if not self.game.reveal_cell(x, y):
+            self.show_all_mines()
+            messagebox.showinfo("Game Over", "Vous avez perdu!")
+            self.menu.create_main_menu()
+        else:
+            self.update_display()
+            if self.game.check_win():
+                messagebox.showinfo("Victoire", "Félicitations, vous avez gagné!")
+                self.ask_player_name()
+
     def right_click(self, x: int, y: int):
         """ Gérer le clic droit :
             - Ajouter un drapeau
@@ -68,24 +79,9 @@ class GameUI:
                 if self.game.grid[y][x] == 'X':
                     self.buttons[y][x].config(text='!', relief=tk.SUNKEN)
 
-    def left_click(self, x: int, y: int):
-        if not self.game.reveal_cell(x, y):
-            self.show_all_mines()
-            messagebox.showinfo("Game Over", "Vous avez perdu!")
-            self.menu.create_main_menu()
-        else:
-            self.update_display()
-            if self.game.check_win():
-                # Calcul du score
-                time_taken = self.game.time_taken  # Le temps pris
-                score = self.game.score  # Le score basé sur les mines et le temps
-                messagebox.showinfo("Victoire", f"Félicitations, vous avez gagné! Temps: {time_taken}s\nScore: {score}")
-                self.ask_player_name()
-
     def ask_player_name(self):
         name = tk.simpledialog.askstring("Victoire", "Entrez votre nom:")
         if name:
-            self.db.add_score(name, self.game.score, self.game.time_taken)  # Sauvegarder le score
-
-
+            time_taken = self.game.get_elapsed_time()  # Récupérer le temps écoulé
+            self.menu.add_score(name, self.game.mines, time_taken)  # Ajouter le score avec le temps
 

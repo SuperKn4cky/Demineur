@@ -3,8 +3,6 @@ from typing import List, Tuple, Set
 import time
 
 
-import time
-
 class Game:
     def __init__(self, width: int, height: int, mines: int):
         self.width = width
@@ -15,27 +13,8 @@ class Game:
         self.first_move = True
         self.game_over = False
         self.marked_cells = set()
-        self.start_time = time.time()  # Enregistrer le temps de début
-        self.time_taken = 0
-        self.score = 0
+        self.start_time = None  # Ajout du temps de début
         self.initialize_grids()
-
-    def calculate_score(self):
-        """ Calcule un score basé sur le temps écoulé et le nombre de mines """
-        self.time_taken = int(time.time() - self.start_time)
-        self.score = max(0, self.width * self.height - self.mines - self.time_taken)
-
-    def reveal_cell(self, x: int, y: int):
-        if self.game_over:
-            return False
-        # Logique de révélation de cellule...
-        if self.check_win():
-            self.calculate_score()  # Calcule le score si gagné
-        return True
-
-    def check_win(self):
-        """ Vérifie si toutes les cases non-minées sont révélées """
-        return self.total_revealed() == self.width * self.height - self.mines
 
     def initialize_grids(self):
         self.grid = [[0 for _ in range(self.width)] for _ in range(self.height)]
