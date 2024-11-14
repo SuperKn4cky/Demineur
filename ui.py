@@ -47,6 +47,10 @@ class GameUI:
             self.game.toggle_mark(x, y)
         else:
             self.game.toggle_mark(x, y)
+            if self.game.check_win():
+                self.update_display()
+                messagebox.showinfo("Victoire", "Félicitations, vous avez gagné!")
+                self.ask_player_name()
         self.update_display()
 
     def update_display(self):

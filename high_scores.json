@@ -18,5 +18,10 @@
         "name": "Babz",
         "score": 1,
         "time": 16
+    },
+    {
+        "name": "test",
+        "score": 1,
+        "time": 9
     }
 ]
