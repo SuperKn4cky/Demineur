@@ -13,7 +13,7 @@ class Game:
         self.first_move = True
         self.game_over = False
         self.marked_cells = set()
-        self.start_time = None  # Ajout du temps de début
+        self.start_time = None  # add start timer
         self.initialize_grids()
 
     def initialize_grids(self):
@@ -22,7 +22,7 @@ class Game:
 
     def start_timer(self):
         """ start chrono """
-        self.start_time = time.time()  # Enregistrer l'heure de départ
+        self.start_time = time.time()  # save depart time
 
     def get_elapsed_time(self):
         """ get time """
