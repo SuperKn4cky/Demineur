@@ -48,6 +48,7 @@ class Game:
 
         self.calculate_numbers()
 
+    # Calculates and sets the count of adjacent mines for each non-mine cell in the grid.
     def calculate_numbers(self):
         for y in range(self.height):
             for x in range(self.width):
@@ -57,6 +58,7 @@ class Game:
                                 and self.grid[ay][ax] == 'X')
                     self.grid[y][x] = count
 
+    # return a list of valid adjacent cell coordinates for cell
     def get_adjacent_cells(self, x: int, y: int) -> List[Tuple[int, int]]:
         adjacent = []
         for dx in [-1, 0, 1]:
