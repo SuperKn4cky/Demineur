@@ -14,7 +14,7 @@ class Menu:
         self.create_main_menu()
 
     def load_scores(self):
-        """ Charge les scores depuis le fichier JSON """
+        """ get score from JSON file """
         if os.path.exists(self.scores_file):
             with open(self.scores_file, 'r') as f:
                 return json.load(f)
@@ -22,12 +22,12 @@ class Menu:
             return []  # Si le fichier n'existe pas, retourner une liste vide
 
     def save_scores(self):
-        """ Sauvegarde les scores dans le fichier JSON """
+        """ Save score in JSON file """
         with open(self.scores_file, 'w') as f:
             json.dump(self.scores, f, indent=4)
 
     def add_score(self, name, score, time):
-        """ Ajouter un score à la liste et sauvegarder """
+        """ Add score to save list """
         self.scores.append({"name": name, "score": score, "time": time})  # Ajout du temps
         self.scores = sorted(self.scores, key=lambda x: x["score"], reverse=True)  # Trier les scores
         self.save_scores()
@@ -103,7 +103,7 @@ class Menu:
         tk.Button(scores_frame, text="Retour", command=self.create_main_menu).pack(pady=20)
 
     def show_customization_menu(self):
-            """ Affiche un menu pour personnaliser la grille """
+            """ print menu to custom grill """
             self.clear_window()
 
             customize_frame = tk.Frame(self.root, padx=20, pady=20)
@@ -111,7 +111,7 @@ class Menu:
 
             tk.Label(customize_frame, text="Personnalisez votre terrain", font=('Arial', 18)).pack(pady=20)
 
-            # Saisie de la largeur, hauteur et nombre de mines
+            # Select values
             tk.Label(customize_frame, text="Largeur :").pack(pady=5)
             self.width_entry = tk.Entry(customize_frame)
             self.width_entry.pack(pady=5)
@@ -131,13 +131,13 @@ class Menu:
             tk.Button(customize_frame, text="Retour", command=self.create_main_menu).pack(pady=10) 
     
     def start_custom_game(self):
-            """ Lance la partie personnalisée avec les valeurs saisies """
+            """ Launch game with selected values """
             try:
                 width = int(self.width_entry.get())
                 height = int(self.height_entry.get())
                 mines = int(self.mines_entry.get())
 
-                # Vérification des valeurs
+                # check values
                 if width <= 0 or height <= 0 or mines <= 0 or mines >= width * height:
                     raise ValueError(
                         "Les valeurs doivent être positives et le nombre de mines doit être inférieur au nombre total de cellules.")
@@ -147,3 +147,4 @@ class Menu:
                 GameUI(self.root, game, self)
             except ValueError as e:
                 messagebox.showerror("Erreur", f"Entrées invalides: {e}")
+

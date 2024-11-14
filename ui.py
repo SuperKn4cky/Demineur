@@ -16,18 +16,18 @@ class GameUI:
         game_frame = tk.Frame(self.root)
         game_frame.pack(expand=True, fill="both")
 
-        # Grille de boutons
+        # button grill
         for y in range(self.game.height):
             row = []
             for x in range(self.game.width):
-                btn = tk.Button(game_frame, width=1, height=1)  # Taille augmentée pour uniformité avec Label
-                btn.grid(row=y, column=x, sticky="nsew")  # Utilisation de `sticky` pour occuper l'espace
+                btn = tk.Button(game_frame, width=1, height=1)  # up size to uniform
+                btn.grid(row=y, column=x, sticky="nsew")  # use `sticky` to use space
                 btn.bind('<Button-1>', lambda e, x=x, y=y: self.left_click(x, y))
                 btn.bind('<Button-3>', lambda e, x=x, y=y: self.right_click(x, y))
                 row.append(btn)
             self.buttons.append(row)
 
-        # Bouton retour
+        #  return button
         tk.Button(self.root, text="Retour au menu", command=self.menu.create_main_menu).pack(pady=10)
 
     def left_click(self, x: int, y: int):
@@ -55,10 +55,10 @@ class GameUI:
                 self.update_cell(x, y)
 
     def update_cell(self, x, y):
-        """Met à jour l'apparence de la cellule après sa révélation."""
+        """ update cell after click """
         value = self.game.display_grid[y][x]
 
-        # Couleurs associées à chaque nombre de mines adjacentes
+        # color grill for every cell
         colors = {
             '1': 'blue',
             '2': 'green',
@@ -71,7 +71,7 @@ class GameUI:
         }
 
         if value != '?' and value != 'F':
-            # Configurer le bouton pour ressembler à une cellule révélée
+            # configure button to look reveal cell
             self.buttons[y][x].config(
                 text=value if value != '0' else '',
                 relief=tk.SUNKEN,
@@ -114,3 +114,4 @@ class GameUI:
         if name:
             time_taken = self.game.get_elapsed_time()
             self.menu.add_score(name, self.game.mines, time_taken)
+

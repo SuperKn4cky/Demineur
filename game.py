@@ -21,17 +21,17 @@ class Game:
         self.display_grid = [['?' for _ in range(self.width)] for _ in range(self.height)]
 
     def start_timer(self):
-        """ Démarre le chronomètre pour le jeu """
+        """ start chrono """
         self.start_time = time.time()  # Enregistrer l'heure de départ
 
     def get_elapsed_time(self):
-        """ Récupère le temps écoulé en secondes """
+        """ get time """
         if self.start_time is None:
-            return 0  # Si le chronomètre n'a pas encore démarré
-        return round(time.time() - self.start_time)  # Retourne le temps écoulé en secondes
+            return 0  # if time dont start
+        return round(time.time() - self.start_time)  # return time
 
     def place_mines(self, first_x: int, first_y: int):
-        # Démarre le chronomètre dès le premier clic
+        # start timer from first clic
         if self.first_move:
             self.start_timer()
 
@@ -69,61 +69,60 @@ class Game:
         return adjacent
 
     def reveal_cell(self, x: int, y: int) -> bool:
-        # Vérifie si les coordonnées sont dans les limites de la grille
+        # check if value are in the window
         if not (0 <= x < self.width and 0 <= y < self.height):
-            return True  # Ignore les clics hors de la grille
+            return True  # ignore click outside of the window
 
-        # Placement des mines lors du premier clic
+        # put mine
         if self.first_move:
             self.place_mines(x, y)
             self.first_move = False
 
-        # Ignore si la cellule est marquée comme drapeau
+        # Ignore if flag
         if (x, y) in self.marked_cells:
             return True
 
-        # Si une mine est révélée, fin de la partie
+        # end game if mine reveal
         if self.grid[y][x] == 'X':
             self.game_over = True
             return False
 
-        # Révèle les cellules avec la propagation
+        # reveal clear cellul
         self.flood_fill(x, y)
         return True
 
     def flood_fill(self, x: int, y: int):
-        # Ensemble pour garder une trace des cellules déjà visitées
+        # kepp clear cell
         visited = set()
 
-        # Fonction interne récursive pour explorer les cellules adjacentes
+        # explore adjacent cell with recursiv fonction
         def inner_fill(x, y):
-            # Vérifie si la cellule est dans les limites de la grille et n'a pas encore été visitée
+            # check if cel not visit and in window
             if (x, y) in visited or not (0 <= x < self.width and 0 <= y < self.height):
                 return
 
-            # Marque la cellule comme visitée
+            # put cel mark
             visited.add((x, y))
 
-            # Révèle la cellule dans la grille d'affichage
+            # reveal cel in grill
             self.display_grid[y][x] = str(self.grid[y][x])
 
-            # Si la cellule est vide (0), continue à explorer les cellules adjacentes
+            # if cell clear , explore adjacent cell
             if self.grid[y][x] == 0:
                 for ax, ay in self.get_adjacent_cells(x, y):
                     inner_fill(ax, ay)
 
-        # Lancement de la propagation à partir de la cellule initiale
+        # start adjacent clear
         inner_fill(x, y)
 
     def toggle_mark(self, x: int, y: int):
-        """ Alterne entre les trois états : normal, marqué avec un drapeau, et état normal. """
         if self.display_grid[y][x] == '?':
-            # Si la cellule est normale, on marque avec un drapeau
+            # if normal cel, flag
             self.marked_cells.add((x, y))
             self.display_grid[y][x] = 'F'  # Marquer avec un drapeau
             print(f"Drapeau placé à la position ({x}, {y})")  # Debug
         elif self.display_grid[y][x] == 'F':
-            # Si la cellule est marquée avec un drapeau, on la retire
+            # if mark cell, unmark
             self.marked_cells.remove((x, y))
             self.display_grid[y][x] = '?'  # Revenir à l'état normal
             print(f"Retrait du drapeau à la position ({x}, {y})")  # Debug
