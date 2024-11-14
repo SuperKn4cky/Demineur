@@ -119,12 +119,12 @@ class Game:
         if self.display_grid[y][x] == '?':
             # if normal cel, flag
             self.marked_cells.add((x, y))
-            self.display_grid[y][x] = 'F'  # Marquer avec un drapeau
+            self.display_grid[y][x] = 'F'  # mark with flag
             print(f"Drapeau placé à la position ({x}, {y})")  # Debug
         elif self.display_grid[y][x] == 'F':
             # if mark cell, unmark
             self.marked_cells.remove((x, y))
-            self.display_grid[y][x] = '?'  # Revenir à l'état normal
+            self.display_grid[y][x] = '?'  # normal print
             print(f"Retrait du drapeau à la position ({x}, {y})")  # Debug
 
     def check_win(self) -> bool:
