@@ -42,9 +42,8 @@ class Menu:
 
         buttons = [
             ("Nouvelle Partie", self.show_difficulty_menu),
-            ("Personnaliser Terrain", self.show_customization_menu),  # Bouton pour personnalisation
+            ("Personnaliser Terrain", self.show_customization_menu),
             ("Scores", self.show_scores),
-            ("Rejouer une Grille", self.show_saved_grids),
             ("Quitter", self.root.quit)
         ]
 
@@ -102,34 +101,6 @@ class Menu:
                 ).pack()
 
         tk.Button(scores_frame, text="Retour", command=self.create_main_menu).pack(pady=20)
-
-    def show_saved_grids(self):
-        self.clear_window()
-        grids_frame = tk.Frame(self.root, padx=20, pady=20)
-        grids_frame.pack(expand=True)
-
-        tk.Label(grids_frame, text="Grilles Sauvegardées", font=('Arial', 18)).pack(pady=20)
-
-        saved_grids = self.db.get_saved_grids()  # Cette partie dépend de ta logique de sauvegarde de grille
-        if not saved_grids:
-            tk.Label(grids_frame, text="Aucune grille sauvegardée").pack()
-        else:
-            for grid in saved_grids:
-                tk.Button(
-                    grids_frame,
-                    text=f"Grille de {grid['name']} - {grid['difficulty']}",
-                    command=lambda g=grid: self.load_saved_grid(g)
-                ).pack(pady=5)
-
-        tk.Button(grids_frame, text="Retour", command=self.create_main_menu).pack(pady=20)
-
-    def load_saved_grid(self, grid_data):
-        self.clear_window()
-        grid_info = grid_data['grid_data']
-        game = Game(grid_info['width'], grid_info['height'], grid_info['mines'])
-        game.grid = grid_info['grid']
-        game.calculate_numbers()
-        GameUI(self.root, game, self)
 
     def show_customization_menu(self):
             """ Affiche un menu pour personnaliser la grille """
